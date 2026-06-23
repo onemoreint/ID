@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>José Lugo IA — Escala tu equipo con automatización</title>
+<style>
+  :root{
+    --navy: #0B1220;
+    --navy-2: #101A2E;
+    --gold: #C9A24B;
+    --gold-soft: #E3C77E;
+    --cream: #F4EFE4;
+    --emerald: #1F6B4D;
+    --emerald-soft: #2C8A65;
+    --line: rgba(201,162,75,0.22);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+  }
+
+  @font-face{
+    font-family:'Playfair Display';
+    src:local('Playfair Display');
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--navy);
+    color:var(--cream);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;}
+  .brand{
+    font-family:var(--font-display);
+    font-size:22px;
+    letter-spacing:0.04em;
+    color:var(--gold-soft);
+  }
+  .brand span{color:var(--cream);font-weight:300;}
+  .badge{
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 0 48px;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-120px;right:-160px;
+    width:480px;height:480px;
+    background:radial-gradient(circle, rgba(201,162,75,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--emerald-soft);
+    border:1px solid rgba(44,138,101,0.35);
+    background:rgba(44,138,101,0.08);
+    padding:7px 16px;
+    border-radius:999px;
+    margin-bottom:24px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--emerald-soft);}
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:start;
+  }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(32px, 4vw, 50px);
+    line-height:1.12;
+    color:var(--cream);
+    margin-bottom:20px;
+  }
+  h1 em{
+    font-style:normal;
+    color:var(--gold-soft);
+  }
+
+  .lede{
+    font-size:18px;
+    color:rgba(244,239,228,0.78);
+    max-width:520px;
+    margin-bottom:28px;
+  }
+
+  .stat-row{
+    display:flex;
+    gap:36px;
+    margin-top:36px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+  }
+  .stat-num{
+    font-family:var(--font-display);
+    font-size:28px;
+    color:var(--gold-soft);
+    font-weight:700;
+  }
+  .stat-label{
+    font-size:13px;
+    color:rgba(244,239,228,0.6);
+    margin-top:2px;
+  }
+
+  /* ---------- Form card ---------- */
+  .form-card{
+    background:linear-gradient(165deg, var(--navy-2), #0D1526);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .form-card h3{
+    font-family:var(--font-display);
+    font-size:21px;
+    color:var(--cream);
+    margin-bottom:6px;
+  }
+  .form-card .sub{
+    font-size:14px;
+    color:rgba(244,239,228,0.6);
+    margin-bottom:22px;
+  }
+
+  .field{margin-bottom:14px;}
+  .field label{
+    display:block;
+    font-size:12px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+  .field input, .field select{
+    width:100%;
+    background:rgba(244,239,228,0.05);
+    border:1px solid rgba(244,239,228,0.16);
+    border-radius:10px;
+    padding:13px 14px;
+    color:var(--cream);
+    font-size:15px;
+    font-family:var(--font-body);
+    outline:none;
+    transition:border-color .2s;
+  }
+  .field input::placeholder{color:rgba(244,239,228,0.32);}
+  .field input:focus, .field select:focus{border-color:var(--gold);}
+
+  .phone-row{display:flex;gap:8px;}
+  .phone-row select{flex:0 0 92px;}
+  .phone-row input{flex:1;}
+
+  .btn-primary{
+    width:100%;
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+    color:#1A1305;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.02em;
+    border:none;
+    border-radius:10px;
+    padding:16px;
+    margin-top:8px;
+    cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px -8px rgba(201,162,75,0.5);
+  }
+  .form-foot{
+    font-size:12px;
+    color:rgba(244,239,228,0.45);
+    text-align:center;
+    margin-top:12px;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:72px 0;}
+  .section-head{
+    text-align:center;
+    max-width:640px;
+    margin:0 auto 48px;
+  }
+  .section-tag{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  h2{
+    font-family:var(--font-display);
+    font-size:clamp(26px,3.2vw,36px);
+    color:var(--cream);
+    line-height:1.2;
+  }
+
+  /* ---------- Benefits ---------- */
+  .benefits{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:radial-gradient(ellipse at top, rgba(201,162,75,0.05), transparent 60%);
+  }
+  .benefit-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+  .benefit{
+    display:flex;
+    gap:16px;
+    padding:24px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:rgba(244,239,228,0.02);
+  }
+  .benefit-num{
+    font-family:var(--font-display);
+    font-size:22px;
+    color:var(--gold-soft);
+    flex:0 0 auto;
+  }
+  .benefit p{font-size:15px;color:rgba(244,239,228,0.82);}
+
+  /* ---------- For you if ---------- */
+  .fity-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+  }
+  .fity{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:18px 20px;
+    border-left:2px solid var(--emerald-soft);
+    background:rgba(31,107,77,0.06);
+    border-radius:0 10px 10px 0;
+  }
+  .fity-check{
+    color:var(--emerald-soft);
+    font-size:18px;
+    flex:0 0 auto;
+    margin-top:1px;
+  }
+  .fity p{font-size:15px;color:rgba(244,239,228,0.85);}
+
+  /* ---------- Ads proof (shorts) ---------- */
+  .ads-proof{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .shorts-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .short-card{
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:#000;
+    box-shadow:0 24px 48px -20px rgba(0,0,0,0.55);
+  }
+  .short-frame-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:9/16;
+    background:#000;
+  }
+  .short-frame-wrap iframe{
+    position:absolute;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    border:0;
+  }
+  .short-caption{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    background:var(--navy-2);
+  }
+  .short-caption .label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--cream);
+  }
+  .short-caption .tag{
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+  }
+  .ads-foot-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:36px;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:rgba(244,239,228,0.4);
+  }
+
+  @media (max-width:860px){
+    .shorts-grid{grid-template-columns:1fr;max-width:340px;margin:0 auto;}
+  }
+
+  /* ---------- Social proof ---------- */
+  .proof{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .proof-counter{
+    text-align:center;
+    margin-bottom:44px;
+  }
+  .proof-counter .big-num{
+    font-family:var(--font-display);
+    font-size:clamp(48px,7vw,72px);
+    color:var(--gold-soft);
+    font-weight:700;
+    line-height:1;
+  }
+  .proof-counter .big-label{
+    font-size:14px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:rgba(244,239,228,0.6);
+    margin-top:8px;
+  }
+
+  .testi-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+  .testi{
+    padding:24px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:rgba(244,239,228,0.02);
+  }
+  .testi-quote{
+    font-size:15px;
+    color:rgba(244,239,228,0.85);
+    margin-bottom:16px;
+  }
+  .testi-name{
+    font-size:13px;
+    color:var(--gold-soft);
+    font-weight:600;
+  }
+  .testi-role{
+    font-size:12px;
+    color:rgba(244,239,228,0.5);
+  }
+
+  /* ---------- Quiz ---------- */
+  .quiz-section{
+    background:linear-gradient(165deg, var(--navy-2), #0D1526);
+  }
+  .quiz-card{
+    max-width:640px;
+    margin:0 auto;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:40px;
+    background:rgba(11,18,32,0.5);
+    position:relative;
+    overflow:hidden;
+  }
+  .quiz-progress{
+    height:4px;
+    background:rgba(244,239,228,0.1);
+    border-radius:4px;
+    margin-bottom:32px;
+    overflow:hidden;
+  }
+  .quiz-progress-bar{
+    height:100%;
+    background:linear-gradient(90deg, var(--emerald-soft), var(--gold-soft));
+    width:25%;
+    transition:width .3s ease;
+  }
+  .quiz-step{display:none;}
+  .quiz-step.active{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .quiz-q{
+    font-family:var(--font-display);
+    font-size:21px;
+    color:var(--cream);
+    margin-bottom:24px;
+  }
+  .quiz-option{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:rgba(244,239,228,0.04);
+    border:1px solid rgba(244,239,228,0.14);
+    border-radius:10px;
+    padding:15px 18px;
+    color:var(--cream);
+    font-size:15px;
+    font-family:var(--font-body);
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .quiz-option:hover{
+    border-color:var(--gold);
+    background:rgba(201,162,75,0.08);
+  }
+  .quiz-back{
+    margin-top:8px;
+    font-size:13px;
+    color:rgba(244,239,228,0.45);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+  .quiz-start{
+    text-align:center;
+  }
+  .quiz-start p{
+    color:rgba(244,239,228,0.7);
+    margin-bottom:24px;
+  }
+  .quiz-final{text-align:center;}
+  .quiz-final .icon{font-size:40px;margin-bottom:16px;}
+  .quiz-final h3{
+    font-family:var(--font-display);
+    font-size:24px;
+    color:var(--gold-soft);
+    margin-bottom:12px;
+  }
+  .quiz-final p{color:rgba(244,239,228,0.75);margin-bottom:24px;}
+
+  /* ---------- Final CTA ---------- */
+  .final-cta{
+    text-align:center;
+    padding:80px 0;
+  }
+  .final-cta h2{margin-bottom:18px;}
+  .final-cta p{
+    color:rgba(244,239,228,0.7);
+    max-width:480px;
+    margin:0 auto 28px;
+  }
+  .btn-secondary{
+    display:inline-block;
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+    color:#1A1305;
+    font-weight:700;
+    padding:16px 36px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:15px;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    text-align:center;
+    font-size:12px;
+    color:rgba(244,239,228,0.4);
+  }
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .benefit-grid, .fity-grid, .testi-grid{grid-template-columns:1fr;}
+    .stat-row{flex-wrap:wrap;gap:24px;}
+    .quiz-card{padding:28px 20px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">JOSÉ LUGO <span>IA</span></div>
+    <div class="badge">One More International</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Sistema de duplicación con IA</div>
+      <h1>Escala tu equipo de network marketing <em>sin perseguir prospectos</em> cada mes</h1>
+      <p class="lede">Descubre el sistema de automatización con inteligencia artificial que estoy usando para entrenar a mi equipo, calificar prospectos y multiplicar el tiempo que le dedico a mi negocio en One More International.</p>
+
+      <div class="stat-row">
+        <div>
+          <div class="stat-num" id="statTeam">0</div>
+          <div class="stat-label">Personas en mi equipo</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statHours">0h</div>
+          <div class="stat-label">Ahorradas al mes con IA</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Sistema replicable</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>Recibe el sistema completo</h3>
+      <p class="sub">Déjame tus datos y te explico cómo funciona, paso a paso.</p>
+      <form id="leadForm">
+        <div class="field">
+          <label for="name">Nombre completo</label>
+          <input type="text" id="name" placeholder="Tu nombre" required>
+        </div>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tucorreo@email.com" required>
+        </div>
+        <div class="field">
+          <label for="phone">Teléfono</label>
+          <div class="phone-row">
+            <select id="countryCode">
+              <option value="+57">🇨🇴 +57</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+54">🇦🇷 +54</option>
+              <option value="+56">🇨🇱 +56</option>
+              <option value="+51">🇵🇪 +51</option>
+              <option value="+58">🇻🇪 +58</option>
+              <option value="+593">🇪🇨 +593</option>
+            </select>
+            <input type="tel" id="phone" placeholder="300 123 4567" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Quiero conocer el sistema</button>
+      </form>
+      <div class="form-foot">Tus datos están seguros. Sin spam.</div>
+    </div>
+  </div>
+</header>
+
+<section class="benefits">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">Lo que vas a aprender</div>
+      <h2>El sistema en acción</h2>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit">
+        <div class="benefit-num">01</div>
+        <p>Cómo usar IA para automatizar el seguimiento de prospectos, sin perder el toque humano que cierra ventas en network marketing.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">02</div>
+        <p>Cómo construir un sistema de duplicación que entrena a tu equipo automáticamente, incluso cuando tú no estás disponible.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">03</div>
+        <p>Cómo calificar prospectos en minutos en lugar de horas, para invertir tu tiempo solo en las personas con verdadero interés.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">04</div>
+        <p>Cómo presentar los productos de One More de forma clara y profesional, con materiales que tu equipo puede reutilizar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">¿Te identificas?</div>
+      <h2>Esto es para ti si...</h2>
+    </div>
+    <div class="fity-grid">
+      <div class="fity">
+        <div class="fity-check">✓</div>
+        <p>Llevas tiempo en network marketing, pero sientes que tu crecimiento depende demasiado de ti.</p>
+      </div>
+      <div class="fity">
+        <div class="fity-check">✓</div>
+        <p>Estás cansado de repetir la misma explicación a cada prospecto, uno por uno.</p>
+      </div>
+      <div class="fity">
+        <div class="fity-check">✓</div>
+        <p>Quieres un sistema claro para entrenar a tu equipo sin estar presente todo el tiempo.</p>
+      </div>
+      <div class="fity">
+        <div class="fity-check">✓</div>
+        <p>Buscas herramientas reales de automatización, no promesas vacías de "dinero fácil".</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ads-proof">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">Paso 1 · Captación</div>
+      <h2>Así atraemos prospectos con anuncios</h2>
+      <p style="margin-top:14px;color:rgba(244,239,228,0.7);font-size:15px;">
+        Estos son ejemplos reales de contenido usado para atraer prospectos a través de video. El copy y el guion se adaptan a cada equipo.
+      </p>
+    </div>
+
+    <div class="shorts-grid">
+      <div class="short-card">
+        <div class="short-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/GDKdTDES0ek" title="Anuncio real 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="short-caption">
+          <span class="label">Anuncio real</span>
+          <span class="tag">José Lugo IA</span>
+        </div>
+      </div>
+
+      <div class="short-card">
+        <div class="short-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/34RSPX_I7AI" title="Anuncio real 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="short-caption">
+          <span class="label">Anuncio real</span>
+          <span class="tag">José Lugo IA</span>
+        </div>
+      </div>
+
+      <div class="short-card">
+        <div class="short-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/mubQYNk0Umw" title="Anuncio real 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="short-caption">
+          <span class="label">Anuncio real</span>
+          <span class="tag">José Lugo IA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ads-foot-row">
+      <span>José Lugo IA</span>
+      <span>Copy + edición incluidos</span>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <div class="proof-counter">
+      <div class="big-num" id="bigCounter">0</div>
+      <div class="big-label">Personas impactadas con este sistema</div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <p class="testi-quote">"Empecé a usar el sistema con mi equipo y ahora paso menos tiempo respondiendo lo mismo y más tiempo cerrando con quien sí está listo."</p>
+        <div class="testi-name">Nombre del distribuidor</div>
+        <div class="testi-role">Equipo One More International</div>
+      </div>
+      <div class="testi">
+        <p class="testi-quote">"La parte del entrenamiento automatizado fue lo que más me ayudó a duplicar sin estar pendiente de cada persona nueva."</p>
+        <div class="testi-name">Nombre del distribuidor</div>
+        <div class="testi-role">Equipo One More International</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">Te tomará menos de 1 minuto</div>
+      <h2>Descubre si este sistema es para ti</h2>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="progressBar"></div></div>
+
+      <div class="quiz-step active" data-step="0">
+        <div class="quiz-start">
+          <p>Responde 4 preguntas rápidas y te diremos si encajas con el perfil del equipo.</p>
+          <button class="btn-primary" onclick="quizNext(1)">EMPEZAR</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="1">
+        <div class="quiz-q">1. ¿Cuál es tu situación actual en network marketing?</div>
+        <button class="quiz-option" onclick="quizNext(2)">Estoy empezando y quiero hacerlo bien desde el inicio</button>
+        <button class="quiz-option" onclick="quizNext(2)">Ya tengo equipo, pero quiero escalarlo con más estructura</button>
+        <button class="quiz-option" onclick="quizNext(2)">Estoy en otra empresa y busco un cambio</button>
+        <button class="quiz-back" onclick="quizBack(0)">Volver</button>
+      </div>
+
+      <div class="quiz-step" data-step="2">
+        <div class="quiz-q">2. ¿Cuánto tiempo puedes dedicarle por semana?</div>
+        <button class="quiz-option" onclick="quizNext(3)">Menos de 5 horas</button>
+        <button class="quiz-option" onclick="quizNext(3)">Entre 5 y 15 horas</button>
+        <button class="quiz-option" onclick="quizNext(3)">Más de 15 horas</button>
+        <button class="quiz-back" onclick="quizBack(1)">Volver</button>
+      </div>
+
+      <div class="quiz-step" data-step="3">
+        <div class="quiz-q">3. ¿Qué tan dispuesto estás a invertir en herramientas y productos para iniciar?</div>
+        <button class="quiz-option" onclick="quizNext(4)">Listo para invertir si el sistema tiene sentido</button>
+        <button class="quiz-option" onclick="quizNext(4)">Necesito más información antes de decidir</button>
+        <button class="quiz-option" onclick="quizNext(4)">Por ahora solo quiero conocer cómo funciona</button>
+        <button class="quiz-back" onclick="quizBack(2)">Volver</button>
+      </div>
+
+      <div class="quiz-step" data-step="4">
+        <div class="quiz-final">
+          <div class="icon">✓</div>
+          <h3>¡Buenas noticias!</h3>
+          <p>Tu perfil encaja con lo que buscamos. Completa el formulario arriba y te contactaré personalmente para mostrarte el sistema completo.</p>
+          <button class="btn-secondary" onclick="document.querySelector('.form-card').scrollIntoView({behavior:'smooth'}); document.getElementById('name').focus();">Completar mis datos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>¿Listo para construir tu equipo con un sistema real?</h2>
+    <p>Completa tus datos y te muestro paso a paso cómo lo estoy usando con mi equipo en One More International.</p>
+    <a href="#" class="btn-secondary" onclick="document.querySelector('.form-card').scrollIntoView({behavior:'smooth'}); document.getElementById('name').focus(); return false;">Quiero el sistema completo</a>
+  </div>
+</section>
+
+<footer>
+  José Lugo IA — One More International · Contenido educativo, no constituye garantía de ingresos.
+</footer>
+
+<script>
+  // Animated counters on load
+  function animateCount(el, target, suffix, duration){
+    let start = 0;
+    let startTime = null;
+    function step(ts){
+      if(!startTime) startTime = ts;
+      const progress = Math.min((ts - startTime) / duration, 1);
+      const value = Math.floor(progress * target);
+      el.textContent = value.toLocaleString('es-ES') + (suffix || '');
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  window.addEventListener('load', () => {
+    animateCount(document.getElementById('statTeam'), 850, '+', 1400);
+    animateCount(document.getElementById('statHours'), 30, 'h', 1400);
+    animateCount(document.getElementById('bigCounter'), 850, '+', 1800);
+  });
+
+  // Quiz logic
+  function quizNext(step){
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.quiz-step[data-step="'+step+'"]').classList.add('active');
+    document.getElementById('progressBar').style.width = (step * 25) + '%';
+  }
+  function quizBack(step){
+    quizNext(step);
+  }
+
+  // Form submit (placeholder — connect to your CRM / webhook)
+  document.getElementById('leadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    alert('¡Gracias ' + name + '! Te contactaremos muy pronto.');
+    // TODO: reemplazar con tu integración real (Notion, CRM, webhook, etc.)
+  });
+</script>
+
+</body>
+</html>
